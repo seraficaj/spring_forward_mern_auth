@@ -12,11 +12,18 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+const myMiddleware = (req, res, next) => {
+    console.log(`incoming request: ${req.method} - ${req.url}`);
+    next();
+};
+
+app.use(myMiddleware);
+
 app.get("/", (req, res) => {
     res.json({ msg: "Welcome to the user app!" });
 });
 
 // controllers
-app.use('/api-v1/users', require('./controllers/api-v1/users'));
+app.use("/api-v1/users", require("./controllers/api-v1/users"));
 
 app.listen(PORT, () => console.log(`Listening on Port: ${PORT}`));
